@@ -8,6 +8,18 @@ const userSchema = new mongoose.Schema({
     type: Number,
     require: false,
   },
+  Address: {
+    type: String,
+    require: false,
+  },
+  city: {
+    type: String,
+    require: false,
+  },
+  state: {
+    type: String,
+    require: false,
+  },
   emailid: {
     type: String,
     require: true,
@@ -41,4 +53,4 @@ const userSchema = new mongoose.Schema({
     required: false,
   },
 });
-module.exports=mongoose.model("user",userSchema)
+module.exports = mongoose.model("user", userSchema);
