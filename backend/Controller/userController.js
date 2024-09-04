@@ -97,6 +97,9 @@ exports.updateUser = async (req, res) => {
           $set: {
             name: data.name,
             phoneNumber: data.phoneNumber,
+            Address:data.Address,
+            city:data.city,
+            state:data.state,
             updateat: new Date(),
             updateby: data.emailid,
           },

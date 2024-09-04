@@ -3,6 +3,7 @@ const reqData=(data)=>{
         ...data.params,
         ...data.query,
         ...data.body,
+        ...data.formdata
         
 
     }
