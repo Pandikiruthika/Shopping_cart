@@ -90,6 +90,7 @@ exports.login = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const data = reqData(req);
+    console.log(req.user.emailid,"ggg")
     await userModel
       .findOneAndUpdate(
         { emailid: data.emailid, status: "active" },
@@ -110,15 +111,16 @@ exports.updateUser = async (req, res) => {
         res.status(200).send("User Updated SucessFully");
       })
       .catch((err) => {
-        res.status(404).send("Not Updated");
+        res.status(500).send("Not Updated");
       });
   } catch (error) {
-    res.status(404).send(error);
+    res.status(500).send(error);
   }
 };
 
 exports.getallUser = async (req, res) => {
   try {
+   
     await userModel
       .find({ status: "active" })
       .then((result) => {
@@ -135,8 +137,9 @@ exports.getallUser = async (req, res) => {
 exports.getOneUser = async (req, res) => {
   try {
     const data = reqData(req);
+    console.log(data.emailid,"gg")
     await userModel
-      .findOne({ emailid: data.emailid, status: "active" })
+      .findOne({emailid:data.emailid, status: "active" })
       .then((result) => {
         res.status(200).send(result);
       })

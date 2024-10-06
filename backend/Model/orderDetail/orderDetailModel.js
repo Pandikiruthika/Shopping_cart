@@ -29,9 +29,9 @@ const orderDetailSchema = new mongoose.Schema({
   },
   orderstatus: {
     type: String,
-    enum: ["Deliverd", "ordered Placed", "order Dispatch","order Cancel"],
+    enum: ["Deliverd", "ordered Placed", "order Dispatch","order Cancel","Pending"],
     required: true,
-    default:"ordered Placed"
+    default:"Pending"
   },
   size: {
     type: String,

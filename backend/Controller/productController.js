@@ -3,69 +3,71 @@ const categoryModel = require("../Model/ProductCategory/productCategoryModel");
 const subCategoryModel = require("../Model/ProductCategory/subcategoryModel");
 const vendorModel = require("../Model/Vendor/vendorModel");
 const { reqData } = require("../Utils/constant");
+const imageupload = require("../uploads/subCategoryUploads");
+
 
 exports.createProduct = (req, res) => {
-  try {
-    const data = reqData(req);
-    const roletype = req.user.roletype;
 
-    if (roletype !== "Admin") {
-      return res.status(404).send("Invalid User");
-    }
-    vendorModel
-      .findOne({ _id: data.productdetails[0].vendorid, status: "active" })
-      .then((vendor) => {
-        if (!vendor) {
-          return res.status(404).send("Vendor not found or inactive");
-        }
+  imageupload.array('files')(req, res, async (err) => {
+    if (err) {
+      return res.status(400).send(err.message);
+    }  
+    try {
+      const data = reqData(req);
+      // console.log(data,"shdshds")
+      const roletype = req.user.roletype;
+      if (roletype !== "Admin") {
+        return res.status(403).send("Invalid User");
+      }
 
-       
-        let arr = [];
-        data.productdetails.forEach((e) => {
-          const obj = {
-            vendorid: vendor.vendorid,
-            vendorname: vendor.companyname,
-            packerinfo: vendor.companyname,
-            netWeight: e.netWeight,
-            supplierinfo: vendor.address,
-            typeofproduct: e.typeofproduct,
-            pattern: e.pattern,
-            productDescription: e.productDescription,
-          };
-          arr.push(obj);
-        });
+      const vendor = await vendorModel.findOne({ _id: "66d582f8b3e791822c8d6187", status: "active" });
 
-        return productDetailModel.create({
-          categoryid: data.categoryid,
-          subcategoryid: data.subcategoryid,
-          file1: data.file1,
-          file2: data.file2,
-          file3: data.file3,
-          file4: data.file4,
-          productdetails: arr,
-          price: data.price,
-          colour: data.colour,
-          extraCharges:data.extraCharges,
-          createat:new Date(),
-          createby:req.user.email,
-          size: ["XS", "M", "L", "XL", "XXL", "XXXL"],
-        });
-      })
-      .then(() => {
-        res.status(200).send("Product created successfully");
-      })
-      .catch((err) => {
-        res.status(500).send({ message: err.message || "Internal Server Error" });
+      if (!vendor) {
+        return res.status(404).send("Vendor not found or inactive");
+      }
+
+      const productDetails=[{
+        vendorid: vendor._id,
+        vendorname: vendor.companyname,
+        packerinfo: vendor.companyname,
+        netWeight: data.netWeight,
+        supplierinfo: vendor.address,
+        typeofproduct: data.typeofproduct,
+        pattern: data.pattern,
+        productDescription: data.productDescription,
+      }]
+
+console.log(productDetails)
+      // Use req.file to access the uploaded file
+      await productDetailModel.create({
+        categoryid: data.categoryid,
+        subcategoryid: data.subcategoryid,
+        file: req.files,  // Ensure this uses req.file
+        productdetails: productDetails,
+        price: data.price,
+        colour: data.colour,
+        extraCharges: data.extraCharges,
+        createat: new Date(),
+        createby: req.user.emailid,
+        size: ["XS", "M", "L", "XL", "XXL", "XXXL"],
       });
-  } catch (error) {
-    res.status(500).send({ message: error.message || "Internal Server Error" });
-  }
+
+      res.status(200).send("Product created successfully");
+    } catch (error) {
+      console.error("Error:", error); // Debugging line
+      res.status(500).send({ message: error.message });
+    }
+  });
 };
+
+
+
 
 
 exports.getproduct = async (req, res) => {
   try {
     const data = reqData(req);
+    
     await productDetailModel
       .find({ subcategoryid: data.subcategoryid, status: "active" })
       .then((product) => {
@@ -79,11 +81,32 @@ exports.getproduct = async (req, res) => {
   }
 };
 
+
+
+
+
+
+exports.getByProductId = async (req, res) => {
+  try {
+    const data = reqData(req);
+    console.log(data.id,"3456789272727272727277737337377722727272727272727  ")
+    await productDetailModel
+      .find({ _id: data.id, status: "active" })
+      .then((product) => {
+        res.status(200).send(product);
+      })
+      .catch((err) => {
+        res.status(404).send(err);
+      });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 exports.updateproduct = async (req, res) => {
   try {
     const data = reqData(req);
-    const roletype = req.user.roletype;
-    if (roletype === "User") {
+    console.log(data,"sbsb")
+    
       await productDetailModel.findOneAndUpdate(
         { _id: data._id, status: "active" },
         { $set: { rating: data.rating, review: data.review } },
@@ -93,17 +116,7 @@ exports.updateproduct = async (req, res) => {
       }).catch((err)=>{
         res.status(404).send(err)
       })
-    }else{
-      await productDetailModel.findOneAndUpdate(
-        { _id: data._id, status: "active" },
-        { $set: { extraCharges:data.extraCharges,price:data.price ,updateat:new Date(),updateby:req.user.emailid} },
-        { new: true }
-      ).then((result)=>{
-        res.status(200).send("Updated Sucessfully")
-      }).catch((err)=>{
-        res.status(404).send(err)
-      })
-    }
+    
   } catch (error) {
     res.status(404).send(error);
   }

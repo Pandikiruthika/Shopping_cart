@@ -11,26 +11,12 @@ const productCategorySchema = new mongoose.Schema({
     ref: "subproductcategory",
     required: true,
   },
-  file1: {
-    type: String,
+  file: {
+    type: Array,
     required: true,
     default: null,
   },
-  file2: {
-    type: String,
-    required: false,
-    default: null,
-  },
-  file3: {
-    type: String,
-    required: false,
-    default: null,
-  },
-  file4: {
-    type: String,
-    required: false,
-    default: null,
-  },
+ 
   productdetails: {
     type: Array,
     required: true,
@@ -52,15 +38,6 @@ const productCategorySchema = new mongoose.Schema({
     type:Number,
     required:true,
     default:0
-  },
-  
-  rating: {
-    type: Number,
-    required: false,
-  },
-  review: {
-    type: String,
-    required: false,
   },
   status: {
     type: String,

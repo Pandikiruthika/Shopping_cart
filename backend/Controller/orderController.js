@@ -8,7 +8,7 @@ exports.placeOrder = async (req, res) => {
     const data = reqData(req);
     const orderid = generateOtp();
     await userModel
-      .find({ _id: data.userid, status: "active" })
+      .find({ emailid: req.user.emailid, status: "active" })
       .then(async (user) => {
         // console.log(user[0],"gggggg")
         await productModel
@@ -18,12 +18,17 @@ exports.placeOrder = async (req, res) => {
             const users = [{
               userid: user[0]._id,
               name: user[0].name,
+              emailid:user[0].emailid,
               Address: user[0].Address,
               city: user[0].city,
               phoneNumber: user[0].phoneNumber,
             }]
             const products = [{
               productid: product[0]._id,
+              image:product[0].file,
+              typeofProduct:product[0].productdetails[0].typeofproduct,
+              productDescription:product[0].productdetails[0].productDescription,
+              vendorname:product[0].productdetails[0].vendorname,
               productprice: product[0].price,
               extracharges: product[0].extraCharges,
               totalamount: Number(product[0].price) + Number(product[0].extraCharges),
@@ -38,7 +43,7 @@ exports.placeOrder = async (req, res) => {
                 userDetails: users,
                 noofitems: data.noofitems,
                 paymentMethod: data.paymentMethod,
-                confirmOrder: data.confirmOrder,
+                confirmOrder: false,
                 orderid: orderid,
                 size: data.size,
                 orderstatus: data.orderstatus,
@@ -70,10 +75,10 @@ exports.getAllorder = async (req, res) => {
     const data = reqData(req);
     //  console.log(data.userid,"ggggg")
     // console.log(result,"ffffffg")
-    const userId = new mongoose.Types.ObjectId(data.userid);
-    console.log(userId,"ddgdgdg")
+    // const userId = new mongoose.Types.ObjectId(data.userid);
+    console.log(req.user.emailid,"ddgdgdg")
     await orderDetailModel
-      .find({ "userDetails.userid": userId, status: "active" })
+      .find({ "userDetails.emailid": req.user.emailid, status: "active" })
       .then((result) => {
         res.status(200).send(result);
       })
@@ -85,40 +90,68 @@ exports.getAllorder = async (req, res) => {
   }
 };
 
+// exports.updateorder = async (req, res) => {
+//   try {
+//     const data = reqData(req);
+//     const roletype = req.user.roletype;
+//     if (roletype === "Admin") {
+//       await orderDetailModel
+//         .findOneAndUpdate(
+//           { orderid: data.orderid, status: "active" },
+//           { $set: { orderstatus: data.orderstatus } },
+//           { new: true }
+//         )
+//         .then((result) => {
+//           res.status(200).send("orderstatus Updated Sucessfully");
+//         })
+//         .catch((err) => {
+//           res.status(404).send(err);
+//         });
+//     } else {
+//       await orderDetailModel
+//         .findOneAndUpdate(
+//           {
+//             orderid: data.orderid,
+//             status: "active",
+//           },
+//           { $set: { status: "inactive" } },
+//           { new: true }
+//         )
+//         .then((result) => {
+//           res.status(200).send("Order cancel");
+//         })
+//         .catch((err) => {
+//           res.status(404).send(err);
+//         });
+//     }
+//   } catch (error) {
+//     res.status(404).send(error);
+//   } 
+// };
+
+
+
+
 exports.updateorder = async (req, res) => {
   try {
     const data = reqData(req);
     const roletype = req.user.roletype;
-    if (roletype === "Admin") {
-      await orderDetailModel
-        .findOneAndUpdate(
-          { orderid: data.orderid, status: "active" },
-          { $set: { orderstatus: data.orderstatus } },
-          { new: true }
-        )
-        .then((result) => {
-          res.status(200).send("orderstatus Updated Sucessfully");
-        })
-        .catch((err) => {
-          res.status(404).send(err);
-        });
-    } else {
+
       await orderDetailModel
         .findOneAndUpdate(
           {
             orderid: data.orderid,
             status: "active",
           },
-          { $set: { status: "inactive" } },
+          { $set: { orderstatus:"ordered Placed" } },
           { new: true }
         )
         .then((result) => {
-          res.status(200).send("Order cancel");
+          res.status(200).send("Order Placed Sucessfully");
         })
         .catch((err) => {
           res.status(404).send(err);
         });
-    }
   } catch (error) {
     res.status(404).send(error);
   } 
