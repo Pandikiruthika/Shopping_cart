@@ -26,8 +26,8 @@ export default function Register() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-100 to-gray-300">
-      <div className="flex min-h-full max-w-xl flex-1 flex-col justify-center px-6 py-10 lg:px-8 border border-gray-300 rounded-lg shadow-lg bg-white bg-opacity-90 transition-transform transform hover:scale-105">
+    <div className="flex items-center justify-center min-h-screen bg-gray-200">
+      <div className="flex min-h-full max-w-xl flex-1 flex-col justify-center px-6 py-10 lg:px-8 border-2 border-gray-300 rounded-lg shadow-lg bg-white bg-opacity-90 transition-transform transform hover:scale-105">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             alt="Your Company"

@@ -15,7 +15,7 @@ export default function WomenDashBoard() {
   const fetchCallouts = async () => {
     try {
       const calloutData = await dispatch(getSubcategory()).unwrap();
-      const filteredCallouts = calloutData.filter((v) => v.categoryid === "66d40a0eb66d8fdf3df9276d");
+      const filteredCallouts = calloutData.filter((v) => v.categoryid === "67023d3bc5c08cdb31f2213f");
 
       if (filteredCallouts.length > 0) {
         setCallouts(filteredCallouts);
@@ -33,12 +33,12 @@ export default function WomenDashBoard() {
   };
 
   return (
-    <div className="px-1 py-1 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20  bg-gradient-to-r from-blue-100 to-gray-300 ">
+    <div className="px-1 py-1 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20 border-2 bg-gray-200">
       <div className="grid gap-10 mx-auto lg:max-w-screen-lg sm:grid-cols-1 lg:grid-cols-4">
         {callouts.map((callout, index) => (
           <div 
             key={index} 
-            className="flex flex-col items-center justify-between p-6 bg-white border rounded-3xl shadow-lg hover:shadow-2xl transform transition duration-500 hover:scale-105"
+            className="flex flex-col items-center justify-between p-6 bg-white border-2 border-gray-300 rounded-3xl shadow-lg hover:shadow-2xl transform transition duration-500 hover:scale-105"
             style={{ height: '350px', width: '250px' }} 
             onClick={() => handleCardClick(callout._id)} // Call the handleCardClick function with subcategoryId
           >

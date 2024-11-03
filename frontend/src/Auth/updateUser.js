@@ -52,9 +52,9 @@ export default function UpdateUser() {
   };
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center items-center px-6 py-12 lg:px-8 bg-gray-500">
-      <div className="w-full max-w-md">
-        <div className="bg-white py-8 px-6 shadow-lg rounded-lg sm:px-10">
+    <div className="flex min-h-full flex-1 flex-col justify-center items-center px-6 py-12 lg:px-8 bg-gray-200 ">
+      <div className="w-full max-w-2xl">
+        <div className="bg-white border-2 border-gray-300 py-8 px-6 shadow-lg rounded-lg sm:px-10">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
             <img
               alt="Profile"
@@ -165,7 +165,7 @@ export default function UpdateUser() {
             <div className="mt-8">
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="flex w-full justify-center rounded-md border-2  border-blue-950 bg-blue-950  px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Update User
               </button>

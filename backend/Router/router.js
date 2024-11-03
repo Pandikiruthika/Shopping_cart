@@ -52,8 +52,9 @@ Router.route("/update").put(Auth.auth,productController.updateproduct)
 // order Route
 Router.route("/order").post(Auth.auth,orderController.placeOrder)
 Router.route("/getorder").get(Auth.auth,orderController.getAllorder)
-Router.route("/getupdate").put(Auth.auth,orderController.updateorder)
-
+Router.route("/orderDetail/:orderid").get(Auth.auth,orderController.getorderByid)
+Router.route("/updateorder").put(Auth.auth,orderController.updateorder)
+Router.route("/deleteorder").put(Auth.auth,orderController.deleteorder)
 Router.route('/menus').post(Auth.auth, MenusController.createMenus).get(Auth.auth, MenusController.getAllMenus)
 Router.route('/getmenus').get(Auth.auth, MenusController.getOneMenu).put(Auth.auth, MenusController.updateOneMenu)
 

@@ -26,6 +26,7 @@ exports.placeOrder = async (req, res) => {
             const products = [{
               productid: product[0]._id,
               image:product[0].file,
+              size:data.size,
               typeofProduct:product[0].productdetails[0].typeofproduct,
               productDescription:product[0].productdetails[0].productDescription,
               vendorname:product[0].productdetails[0].vendorname,
@@ -36,7 +37,10 @@ exports.placeOrder = async (req, res) => {
             }];
             const currentDate = new Date();
     const estimatedDate = new Date(currentDate.setDate(currentDate.getDate() + 5));
-            
+         
+let date = new Date(estimatedDate);
+let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+let dayOfWeek = date.getDay();
     await orderDetailModel
               .create({
                 productDetails: products,
@@ -49,10 +53,11 @@ exports.placeOrder = async (req, res) => {
                 orderstatus: data.orderstatus,
                 createat: new Date(),
                 estimatedate :estimatedDate,
+                day:days[dayOfWeek],
                 createby: req.user.emailid,
               })
               .then((result) => {
-                res.status(200).send("Order Placed Sucessfully");
+                res.status(200).send(result);
               })
               .catch((err) => {
                 res.status(404).send(err);
@@ -78,7 +83,26 @@ exports.getAllorder = async (req, res) => {
     // const userId = new mongoose.Types.ObjectId(data.userid);
     console.log(req.user.emailid,"ddgdgdg")
     await orderDetailModel
-      .find({ "userDetails.emailid": req.user.emailid, status: "active" })
+      .find({ "userDetails.emailid": req.user.emailid})
+      .then((result) => {
+        res.status(200).send(result);
+      })
+      .catch((err) => {
+        res.status(404).send(err);
+      });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
+exports.getorderByid = async (req, res) => {
+  try {
+    const data = reqData(req);
+    //  console.log(data.userid,"ggggg")
+    // console.log(result,"ffffffg")
+    // const userId = new mongoose.Types.ObjectId(data.userid);
+    console.log(data,"ddgdgdg")
+    await orderDetailModel
+      .find({ orderid: data.orderid, status: "active" }).sort({orderid:-1})
       .then((result) => {
         res.status(200).send(result);
       })
@@ -152,6 +176,39 @@ exports.updateorder = async (req, res) => {
         .catch((err) => {
           res.status(404).send(err);
         });
+  } catch (error) {
+    res.status(404).send(error);
+  } 
+};
+
+
+exports.deleteorder = async (req, res) => {
+  try {
+    const data = reqData(req);
+    const roletype = req.user.roletype;
+    orderDetailModel.find({orderid:data.orderid,status:"active"}).then(async (order)=>{
+      if(order.orderstatus!=="Delivered"){
+        await orderDetailModel
+        .findOneAndUpdate(
+          {
+            orderid: data.orderid,
+            status: "active",
+          },
+          { $set: { orderstatus:"order Cancel", status:"inactive" } },
+          { new: true }
+        )
+        .then((result) => {
+          res.status(200).send("Order Cancel");
+        })
+        .catch((err) => {
+          res.status(404).send(err);
+        });
+      }
+     
+    }).catch((err)=>{
+      res.status(404).send(err);
+    })
+     
   } catch (error) {
     res.status(404).send(error);
   } 

@@ -2,7 +2,7 @@ import { FaShoppingCart, FaMapMarkedAlt, FaCreditCard } from 'react-icons/fa';
 
 export default function TrackingOrder() {
   return (
-    <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+    <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20 ">
       <div className="flex justify-between max-w-2xl mx-auto items-center">
         {/* Step 1 */}
         <div className="flex flex-col items-center">

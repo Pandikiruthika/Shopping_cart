@@ -5,7 +5,7 @@ import image4 from "../../images/footware.jpg";
 
 export default function Content ()  {
   return (
-    <div className="px-1 py-2 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-10 bg-gradient-to-r from-blue-100 to-gray-300">
+    <div className="px-1 py-2 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-10 bg-gray-200 ">
       <p className="font-bold text-2xl">Best of Women </p>
       <div className="grid gap-6 row-gap-5 mb-8 lg:grid-cols-4 sm:row-gap-6 sm:grid-cols-2 mt-4">
         <a href="/" aria-label="View Item">

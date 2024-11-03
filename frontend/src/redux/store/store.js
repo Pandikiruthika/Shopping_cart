@@ -6,6 +6,8 @@ import subcategorySlice from '../../Service/subcategorySlice';
 import productDetailSlice from '../../Service/productSlice'
 import cartSlice from '../../Service/addCartSlice'
 import orderSlice from '../../Service/orderSlice'
+import reviewSlice from "../../Service/reviewSlice"
+
 export const store = configureStore({
     reducer: {
       [apiSlice.reducerPath]: apiSlice.reducer,
@@ -13,7 +15,8 @@ export const store = configureStore({
       subcategory:subcategorySlice,
       product:productDetailSlice,
       addcart :cartSlice,
-      order:orderSlice
+      order:orderSlice,
+      review:reviewSlice
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({ serializableCheck: false }).concat(apiSlice.middleware),

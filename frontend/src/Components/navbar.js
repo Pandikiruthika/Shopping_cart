@@ -2,6 +2,7 @@ import { useState,useEffect } from "react";
 import cart from "../images/cart.jpg";
 import { CgProfile } from "react-icons/cg";
 import { GrCart } from "react-icons/gr";
+import { IoBagOutline } from "react-icons/io5";
 import {useLazyGetUserDataQuery} from "../Service/loginSlice"
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
@@ -119,6 +120,17 @@ const [user,setUser]=useState([])
                   className="font-medium tracking-wide text-gray-200 transition-colors duration-200 hover:text-deep-purple-accent-400"
                 >
                   <GrCart className="text-2xl" />
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/orderhistory"
+                  aria-label="View order"
+                  title="View order"
+                  className="font-medium tracking-wide text-gray-200 transition-colors duration-200 hover:text-deep-purple-accent-400"
+                >
+                  <IoBagOutline className="text-2xl font-bold" />
+
                 </a>
               </li>
             </>

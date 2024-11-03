@@ -29,7 +29,7 @@ const orderDetailSchema = new mongoose.Schema({
   },
   orderstatus: {
     type: String,
-    enum: ["Deliverd", "ordered Placed", "order Dispatch","order Cancel","Pending"],
+    enum: ["Delivered", "ordered Placed", "order Dispatch","order Cancel","Pending"],
     required: true,
     default:"Pending"
   },
@@ -57,6 +57,10 @@ const orderDetailSchema = new mongoose.Schema({
   },
   estimatedate:{
     type: Date,
+    required: true
+  },
+  day:{
+    type: String,
     required: true
   },
   updateby: {

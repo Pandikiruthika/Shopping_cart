@@ -5,10 +5,11 @@ import cartImage from '../../images/addcart.png';
 import { useLazyGetUserDataQuery } from "../../Service/loginSlice";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
-
+import {useOrderDataMutation} from "../../Service/orderSlice"
 export default function ShoppingCart() {
   const [getcartApi] = useLazyGetcartDataQuery();
   const navigate = useNavigate();
+  const [createOrderApi]=useOrderDataMutation()
   const [getAddressApi] = useLazyGetUserDataQuery();
   const [product, setProduct] = useState([]);
   const [deletecartApi] = useDeletecartDataMutation();
@@ -78,20 +79,25 @@ export default function ShoppingCart() {
     0
   );
 
-  const handleAddressChange = (e) => {
-    const { name, value } = e.target;
-    setAddress((prevAddress) => ({
-      ...prevAddress,
-      [name]: value
-    }));
-  };
+  async function handleBuy(productId) {
+    const token = sessionStorage.getItem("token");
+    const json = { productid: productId };
+  
+      try {
+        const res= await createOrderApi(json).unwrap()
+        navigate(`/review/${productId}`);
+      } catch (error) {
+        console.error("Failed to add to cart:", error);
+      }
+    }
+  
 
   return (
-    <div className="relative z-10 min-h-screen bg-gradient-to-r from-blue-100 to-gray-300 w-full overflow-x-hidden">
+    <div className="relative z-10 min-h-screen bg-gray-200 w-full overflow-x-hidden">
       <div className="flex flex-col lg:flex-row w-full max-w-7xl mx-auto p-6 space-x-0 lg:space-x-6">
         {/* Left Side - Cart Content */}
-        <div className="w-full lg:w-2/3 bg-white rounded-lg shadow-xl p-8 border border-gray-200">
-          <h2 className="text-3xl font-bold text-gray-900">Shopping Cart</h2>
+        <div className="w-full lg:w-2/3 bg-white rounded-lg shadow-xl p-8 border-2 border-gray-300">
+          <h2 className="text-2xl font-bold text-gray-900">Shopping Cart</h2>
 
           <div className="mt-6">
             <div className="flow-root">
@@ -99,7 +105,7 @@ export default function ShoppingCart() {
                 <ul role="list" className="-my-6 divide-y divide-gray-300">
                   {cartItems.map((item) => (
                     <li key={item?._id} className="flex py-6 hover:bg-gray-50 transition duration-200">
-                      <div className="h-32 w-32 flex-shrink-0 overflow-hidden rounded-lg border border-gray-300">
+                      <div className="h-32 w-32 flex-shrink-0 overflow-hidden rounded-lg border-2 border-gray-300">
                         <img
                           alt="Product"
                           src={`http://localhost:4000/images/${item?.file[0]?.filename}`}
@@ -108,7 +114,7 @@ export default function ShoppingCart() {
                       </div>
 
                       <div className="ml-6 flex flex-1 flex-col">
-                        <div className="flex justify-between text-lg font-medium text-gray-900">
+                        <div className="flex justify-between text-xl font-medium text-gray-900">
                           <h3>
                             <a href={item.href} className="hover:text-indigo-600 transition duration-200">
                               {productDetails?.productDescription}
@@ -120,7 +126,7 @@ export default function ShoppingCart() {
                         <div className="flex space-x-2 items-center mt-4">
                           <button
                             onClick={handleDecreaseQty}
-                            className="bg-blue-900 text-white px-2 py-1 rounded hover:bg-blue-800 transition duration-200 font-bold text-md"
+                            className="bg-blue-900 text-white px-2 py-1  border-2 border-blue-950 rounded hover:bg-blue-800 transition duration-200 font-bold text-md"
                             aria-label="Decrease quantity"
                           >
                             -
@@ -128,7 +134,7 @@ export default function ShoppingCart() {
                           <p className="text-sm text-gray-500 font-bold">Qty: {qty}</p>
                           <button
                             onClick={handleIncreaseQty}
-                            className="bg-blue-900 text-white px-2 py-1 rounded hover:bg-blue-800 transition duration-200"
+                            className="bg-blue-900 text-white border-2 border-blue-950 px-2 py-1 rounded hover:bg-blue-800 transition duration-200"
                             aria-label="Increase quantity"
                           >
                             +
@@ -183,8 +189,8 @@ export default function ShoppingCart() {
 
               {/* Checkout Button */}
               <div className="mt-6">
-                <button className="flex w-full items-center justify-center rounded-lg bg-blue-900 px-6 py-3 text-base font-medium text-white shadow-lg hover:bg-blue-900 transition duration-200 transform hover:scale-105">
-                  Continue to Order
+                <button className="flex w-full items-center justify-center border-2 border-blue-950  rounded-lg bg-blue-900 px-6 py-3 text-base font-medium text-white shadow-lg hover:bg-blue-900 transition duration-200 transform hover:scale-105" onClick={()=>handleBuy(product[0].productid)}>
+                  Place the Order
                 </button>
               </div>
 
@@ -199,7 +205,7 @@ export default function ShoppingCart() {
         {/* Right Side - Tracking Order and Delivery Address */}
         <div className="w-full lg:w-1/3 space-y-6 mt-6 lg:mt-0">
           {/* Delivery Address Card */}
-          <div className="bg-white rounded-lg shadow-xl p-6 border border-gray-200">
+          <div className="bg-white rounded-lg shadow-xl p-6 border-2 border-gray-300">
             <h3 className="text-xl font-bold text-gray-900 mb-4">Delivery Address</h3>
             <div className="space-y-4">
               <p className="text-lg font-semibold">{address.name}</p>
@@ -216,7 +222,7 @@ export default function ShoppingCart() {
           </div>
 
           {/* Tracking Order */}
-          <div className="bg-white rounded-lg shadow-xl p-6 border border-gray-200">
+          <div className="bg-white rounded-lg shadow-xl p-6 border-2 border-gray-300">
             <h3 className="text-xl font-bold text-gray-900 mb-4">Track Your Order</h3>
             <TrackingOrder />
           </div>

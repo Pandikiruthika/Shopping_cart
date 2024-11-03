@@ -30,7 +30,7 @@ exports.createReview = async (req, res) => {
                     createby: req.user.emailid,
                   })
                   .then((data1) => {
-                    res.status(200).send("Thank you for Your Review");
+                    res.status(200).send("Thank you for Your Review😊");
                   })
                   .catch((err) => {
               console.log(err,"ddg")

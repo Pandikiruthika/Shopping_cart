@@ -51,9 +51,9 @@ export default function SareeDetail() {
   };
 
   return (
-    <div className="bg-gradient-to-r from-blue-100 to-gray-300 min-h-screen">
+    <div className="bg-gray-200 min-h-screen">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:flex lg:gap-8">
-        <aside className="w-full lg:w-1/4  top-0 bg-white p-6 rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl">
+        <aside className="w-full lg:w-1/4  top-0 border-2  border-gray-300 bg-white p-6 rounded-lg shadow-lg transition-all duration-300 hover:shadow-2xl">
           <h2 className="text-xl font-bold text-gray-900 mb-4">Filters</h2>
           
           {/* Category Filter */}
@@ -172,7 +172,7 @@ export default function SareeDetail() {
                     className="space-y-4 hover:scale-105 transform transition-transform duration-300 cursor-pointer"
                     onClick={() => handleCardClick(prod._id)}
                   >
-                    <div className="group relative border border-gray-200 rounded-lg bg-white overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                    <div className="group relative  border-2  border-gray-300 rounded-lg bg-white overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300">
                       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200 lg:aspect-none group-hover:opacity-90 lg:h-80">
                         <img
                           alt="saree"

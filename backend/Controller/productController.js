@@ -20,7 +20,7 @@ exports.createProduct = (req, res) => {
         return res.status(403).send("Invalid User");
       }
 
-      const vendor = await vendorModel.findOne({ _id: "66d582f8b3e791822c8d6187", status: "active" });
+      const vendor = await vendorModel.findOne({ _id: "67023d0bc5c08cdb31f2213c", status: "active" });
 
       if (!vendor) {
         return res.status(404).send("Vendor not found or inactive");
@@ -67,7 +67,7 @@ console.log(productDetails)
 exports.getproduct = async (req, res) => {
   try {
     const data = reqData(req);
-    
+    console.log(data,"sshh")
     await productDetailModel
       .find({ subcategoryid: data.subcategoryid, status: "active" })
       .then((product) => {

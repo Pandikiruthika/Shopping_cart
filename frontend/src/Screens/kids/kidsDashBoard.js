@@ -1,17 +1,17 @@
 import { getSubcategory } from '../../Service/subcategorySlice';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
+import { useNavigate } from 'react-router-dom';
 export default function KidsDashBoard() {
   const dispatch = useDispatch();
   const [callouts, setCallouts] = useState([]);
   const [name, setName] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchCallouts = async () => {
       try {
         const calloutData = await dispatch(getSubcategory()).unwrap();
-        const filteredCallouts = calloutData.filter((v) => v.categoryid === "66d40a18b66d8fdf3df92770");
+        const filteredCallouts = calloutData.filter((v) => v.categoryid === "67023d49c5c08cdb31f22145");
 
         if (filteredCallouts.length > 0) {
           setCallouts(filteredCallouts);
@@ -24,6 +24,10 @@ export default function KidsDashBoard() {
 
     fetchCallouts();
   }, [dispatch]);
+  const handleCardClick = (subcategoryId) => {
+    console.log(subcategoryId,"hhddh")
+    navigate(`/sareedetail/${subcategoryId}`); // Passing subcategoryId as a route parameter
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-100 to-gray-300 "> 
@@ -34,6 +38,7 @@ export default function KidsDashBoard() {
               key={index} 
               className="flex flex-col items-center justify-between p-6 bg-white border rounded-3xl shadow-lg hover:shadow-2xl transform transition duration-500 hover:scale-105"
               style={{ height: '350px', width: '250px' }} 
+              onClick={() => handleCardClick(callout._id)}
             >
               <div className="flex items-center justify-center h-48 w-full mb-4">
                 <img

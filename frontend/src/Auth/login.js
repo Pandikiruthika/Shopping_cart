@@ -28,8 +28,8 @@ export default function Login() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-100 to-gray-300">
-      <div className="flex min-h-full max-w-xl flex-1 flex-col justify-center px-6 py-10 lg:px-8 border border-gray-300 rounded-lg shadow-lg bg-white">
+    <div className="flex items-center justify-center min-h-screen bg-gray-200">
+      <div className="flex min-h-full max-w-xl flex-1 flex-col justify-center px-6 py-10 lg:px-8 border-2 border-gray-300 rounded-lg shadow-lg bg-white">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             alt="Your Company"
@@ -66,7 +66,7 @@ export default function Login() {
               <button
                 type="submit"
                 disabled={!emailId}
-                className="flex w-full justify-center rounded-md bg-gradient-to-r from-blue-600 to-blue-900 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gradient-to-l transition duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="flex w-full justify-center border-2 border-blue-900 rounded-md bg-gradient-to-r from-blue-600 to-blue-900 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gradient-to-l transition duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Verify OTP
               </button>

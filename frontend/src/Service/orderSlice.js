@@ -12,7 +12,7 @@ export const OrderApiSlice = apiSlice.injectEndpoints({
         url: `/order`,
         method: 'POST',
         body: body,
-        responseHandler: (response) => (response.ok ? response.text() : response.text())
+        responseHandler: (response) => (response.ok ? response.json() : response.json())
       }),
       invalidatesTags: (result, error) => (result && !error ? ['Order'] : []),
     }),
@@ -25,23 +25,45 @@ export const OrderApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ['Order'],
     }),
+    getOrderIdData: builder.query({
+      query: (query) => `/orderDetail/${query}`,
+      transformResponse: (responseData) => responseData,
+      transformErrorResponse: (err) => ({
+        status: err.originalStatus ?? err.status,
+        data: err.data,
+      }),
+      providesTags: ['Order'],
+    }),
     deleteOrderData: builder.mutation({
         query: (body) => ({
-          url: `/order`,
-          method: 'Delete',
+          url: `/deleteorder`,
+          method: 'PUT',
           body: body,
           responseHandler: (response) => (response.ok ? response.text() : response.text())
         }),
         invalidatesTags: (result, error) => (result && !error ? ['Order'] : []),
-      })
-  
+      }),
+      UpdateOrderData: builder.mutation({
+        query: (body) => ({
+          url: `/updateorder`,
+          method: 'Put',
+          body: body,
+          responseHandler: (response) => (response.ok ? response.text() : response.text())
+        }),
+        invalidatesTags: (result, error) => (result && !error ? ['Order'] : []),
+      }),
+   
   }),
+  
+  
 });
 
 export const {
  useDeleteOrderDataMutation,
   useOrderDataMutation,
-  useLazyGetOrderDataQuery
+  useLazyGetOrderIdDataQuery,
+  useLazyGetOrderDataQuery,
+  useUpdateOrderDataMutation
 } = OrderApiSlice;
 
 const orderSlice = createSlice({
